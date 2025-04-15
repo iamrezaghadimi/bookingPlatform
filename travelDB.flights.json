@@ -1,0 +1,90 @@
+[{
+  "_id": {
+    "$oid": "67cbbcf9d0908096529d2ad5"
+  },
+  "destination": "Paris",
+  "price": 500,
+  "date": {
+    "$date": "2023-10-17T14:00:00.000Z"
+  },
+  "details": {
+    "airline": "Air France",
+    "flightNumber": "5738291046"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67cbbcf9d0908096529d2ad6"
+  },
+  "destination": "New York",
+  "price": 700,
+  "date": {
+    "$date": "2023-11-01T10:00:00.000Z"
+  },
+  "details": {
+    "airline": "Delta Airlines",
+    "flightNumber": "1234567890"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67cbbcf9d0908096529d2ad7"
+  },
+  "destination": "Tokyo",
+  "price": 900,
+  "date": {
+    "$date": "2023-12-15T08:00:00.000Z"
+  },
+  "details": {
+    "airline": "Japan Airlines",
+    "flightNumber": "9876543210"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67cbbd8ab8ceea0419daea3d"
+  },
+  "destination": "Paris",
+  "price": 500,
+  "date": {
+    "$date": "2023-10-17T14:00:00.000Z"
+  },
+  "details": {
+    "airline": "Air France",
+    "flightNumber": "5738291046"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67cbbd8ab8ceea0419daea3e"
+  },
+  "destination": "New York",
+  "price": 700,
+  "date": {
+    "$date": "2023-11-01T10:00:00.000Z"
+  },
+  "details": {
+    "airline": "Delta Airlines",
+    "flightNumber": "1234567890"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67cbbd8ab8ceea0419daea3f"
+  },
+  "destination": "Tokyo",
+  "price": 900,
+  "date": {
+    "$date": "2023-12-15T08:00:00.000Z"
+  },
+  "details": {
+    "airline": "Japan Airlines",
+    "flightNumber": "9876543210"
+  },
+  "__v": 0
+}]
