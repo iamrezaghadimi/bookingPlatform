@@ -1,8 +1,23 @@
 const Joi = require('joi')
+const mongoose = require('mongoose')
+
+const flightSchema = new mongoose.Schema({
+    destination: String,
+    price: Number,
+    date: Date,
+    details:{
+        airline: String,
+        flightNumber: String,
+        tags: [{type :String}]
+    }
+})
+
+const Flight = mongoose.model("Flight", flightSchema)
+
 
 const validateFlight = (data, method) => {
     const optionalSchema = Joi.object({
-        dest: Joi.string().max(100),
+        destination: Joi.string().max(100),
         price: Joi.number().positive(),
         date: Joi.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})$/),
         details: Joi.object({
@@ -14,7 +29,7 @@ const validateFlight = (data, method) => {
 
 
     const requiredSchema = Joi.object({
-        dest: optionalSchema.dest.required(),
+        destination: optionalSchema.destination.required(),
         price: optionalSchema.price.required(),
         date: optionalSchema.date.required(),
         details: Joi.object({
@@ -25,14 +40,14 @@ const validateFlight = (data, method) => {
     })
 
     const querySchema = Joi.object({
-        dest: optionalSchema.dest,
+        destination: optionalSchema.destination,
         price_min: Joi.number().positive(),
         price_max: Joi.number().positive().when('price_min',{
             is: Joi.exist(),
             then: Joi.number.min(Joi.ref('price_min')),
         }),
-        date_min: optionalSchema.date(),
-        date_max: optionalSchema.date().when('date_min',{
+        date_start: optionalSchema.date(),
+        date_end: optionalSchema.date().when('date_min',{
             is: Joi.exist(),
             then: Joi.string().min(Joi.ref('date_min')),
         }),    
@@ -46,8 +61,8 @@ const validateFlight = (data, method) => {
             return tags
         }, "Split tags by comma and validate max 3 tags"),
         sortBy: Joi.string().valid(
-            'dest', 'price', 'date', 'details.airline', 'details.flightNumber',
-            '-dest', '-price', '-date', '-details.airline', '-details.flightNumber',
+            'destination', 'price', 'date', 'details.airline', 'details.flightNumber',
+            '-destination', '-price', '-date', '-details.airline', '-details.flightNumber',
         ),
         limit: Joi.number().integer().positive(),
         page: Joi.number().integer().positive(),
@@ -67,3 +82,7 @@ const validateFlight = (data, method) => {
 
     throw Error("Invalid request method.")
 }
+
+
+
+module.exports = {Flight, validateFlight}
