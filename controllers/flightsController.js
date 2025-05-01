@@ -1,6 +1,4 @@
 const {Flight, validateFlight} = require('../models/Flight')
-const { v4: uuidv4 } = require("uuid");
-
 
 const getAllFlights = async (req, res) => {
     const {error} = validateFlight(req.query, req.method)

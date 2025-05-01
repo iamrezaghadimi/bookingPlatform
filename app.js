@@ -5,6 +5,7 @@ const morgan = require("morgan");
 
 const flightsRouter = require("./routes/flights");
 const hotelsRouter = require("./routes/hotels");
+const usersRouter = require("./routes/users");
 
 const uri = 'mongodb://localhost:27017/richard'
 mongoose.connect(uri).then(() => {
@@ -26,6 +27,8 @@ if(app.get('env')==="development"){
 
 app.use("/flights", flightsRouter);
 app.use("/hotels", hotelsRouter);
+app.use("/users", usersRouter);
+
 
 app.use((err, req, res, next) => {
     if (err instanceof SyntaxError) {
