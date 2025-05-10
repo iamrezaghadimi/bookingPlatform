@@ -52,6 +52,8 @@ const validateUser = (data, method) => {
         roles: optionalSchema.roles
     })    
 
+    schema = (method === 'PATCH') ? optionalSchema : requiredSchema
+    return schema.validate(data)
 }
 
 module.exports = {User, validateUser}
