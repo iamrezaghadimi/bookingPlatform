@@ -2,12 +2,14 @@ require("dotenv").config();
 const express = require("express");
 const debug = require("debug")("app:normal");
 const morgan = require("morgan");
-
+const mongoose = require("mongoose")
 const flightsRouter = require("./routes/flights");
 const hotelsRouter = require("./routes/hotels");
 const usersRouter = require("./routes/users");
 
-const uri = 'mongodb://localhost:27017/richard'
+// const uri = 'mongodb://localhost:27017/richard'
+const uri = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}?authSource=admin`;
+
 mongoose.connect(uri).then(() => {
     console.log("Connected to mongodb!");
 }).catch((err)=>{

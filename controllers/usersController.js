@@ -4,6 +4,7 @@ const signUp = async (req, res) => {
     const {error} = validateUser(req.body, req.method)
     if(error) return res.status(400).json({error: error.details})
 
+     console.log(req.body);   
     let user = await User.findOne({email: req.body.email})
     if(user) return res.status(400).json({ error: 'User already registered!'})
 
@@ -26,7 +27,6 @@ const signIn = async (req, res) => {
     const validPassword = await user.comparePassword(password)
     if(!validPassword) return res.status(400).json({ error: 'Invalid email or password!'})   
 
-
     try {
         return res.header('x-auth-token', user.generateAuthToken()).json({ message: "User logged in successfully", user})
     } catch (error) {
@@ -34,3 +34,14 @@ const signIn = async (req, res) => {
     }
 };
 
+// const updateUser= async (req, res) => {
+//     const {error} = validateUser(req.body, req.method)
+//     if(error) return res.status(400).json({error: error.details})
+
+//     const user = await User.findById(req)
+// }
+
+module.exports = {
+    signUp,
+    signIn
+}

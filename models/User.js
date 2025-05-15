@@ -38,22 +38,22 @@ const User = mongoose.model("User", userSchema)
 
 
 const validateUser = (data, method) => {
-    const optionalSchema = Joi.object({
+    const optionalSchema = {
         name: Joi.string().max(100),
-        email: Joi.string().email().max(50),
+        email: Joi.string().email().max(100),
         password: Joi.string().min(6),
         roles: Joi.array().items(Joi.string())
-    })
+    };
 
-    const requiredSchema = Joi.object({
+    requiredSchema = {
         name: optionalSchema.name.required(),
         email: optionalSchema.email.required(),
         password: optionalSchema.password.required(),
         roles: optionalSchema.roles
-    })    
+    }
 
-    schema = (method === 'PATCH') ? optionalSchema : requiredSchema
-    return schema.validate(data)
+    schema = Joi.object(method === 'PATCH' ? optionalSchema : requiredSchema)
+    return schema.validate(data);
 }
 
 module.exports = {User, validateUser}

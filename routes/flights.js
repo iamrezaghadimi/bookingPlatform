@@ -4,7 +4,7 @@ const flightsController = require("../controllers/flightsController");
 const auth = require("../middlewares/auth")
 
 router.get("/", auth(['admin', 'flight_get']), flightsController.getAllFlights);
-router.post("/", flightsController.createFlight);
+router.post("/", auth(['admin', 'flight_post']), flightsController.createFlight);
 router.put("/:id", flightsController.updateFlight);
 router.patch("/:id", flightsController.updateFlight);
 router.delete("/:id", flightsController.deleteFlight);

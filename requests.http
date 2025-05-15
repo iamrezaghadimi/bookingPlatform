@@ -1,0 +1,19 @@
+### test sign-up
+POST http://localhost:5000/users/signup
+content-type: application/json
+
+{
+    "name":"richard",
+    "email":"rich@rd.com",
+    "password":"12345555555555555",
+    "roles":["admin"]
+}
+
+### test sign-in
+POST http://localhost:5000/users/signin
+content-type: application/json
+
+{
+    "email":"rich@rd.com",
+    "password":"12345555555555555"
+}
