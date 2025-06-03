@@ -16,19 +16,19 @@ const Flight = mongoose.model("Flight", flightSchema)
 
 
 const validateFlight = (data, method) => {
-    const optionalSchema = Joi.object({
+    const optionalSchema = {
         destination: Joi.string().max(100),
         price: Joi.number().positive(),
         date: Joi.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})$/),
         details: Joi.object({
-            airline: Joi.string.max(100),
-            flightNumber: Joi.string.max(10),
-            tags: Joi.array().max(5).items(Joi.string.max(20)),
+            airline: Joi.string().max(100),
+            flightNumber: Joi.string().max(10),
+            tags: Joi.array().max(5).items(Joi.string().max(20)),
         })
-    })
+    }
 
 
-    const requiredSchema = Joi.object({
+    const requiredSchema = {
         destination: optionalSchema.destination.required(),
         price: optionalSchema.price.required(),
         date: optionalSchema.date.required(),
@@ -37,17 +37,17 @@ const validateFlight = (data, method) => {
             flightNumber: optionalSchema.details.extract('flightNumber').required(),
             tags: optionalSchema.details.extract('tags')
         }).required()
-    })
+    }
 
-    const querySchema = Joi.object({
+    const querySchema = {
         destination: optionalSchema.destination,
         price_min: Joi.number().positive(),
         price_max: Joi.number().positive().when('price_min',{
             is: Joi.exist(),
-            then: Joi.number.min(Joi.ref('price_min')),
+            then: Joi.number().min(Joi.ref('price_min')),
         }),
-        date_start: optionalSchema.date(),
-        date_end: optionalSchema.date().when('date_min',{
+        date_start: optionalSchema.date,
+        date_end: optionalSchema.date.when('date_min',{
             is: Joi.exist(),
             then: Joi.string().min(Joi.ref('date_min')),
         }),    
@@ -67,17 +67,17 @@ const validateFlight = (data, method) => {
         limit: Joi.number().integer().positive(),
         page: Joi.number().integer().positive(),
 
-    })
+    }
 
 
     if(method === "PATCH"){
-        return optionalSchema.validate(data)
+        return Joi.object(optionalSchema).validate(data)
     }
     else if(method === "POST" || method === "PUT"){
-        return requiredSchema.validate(data)
+        return Joi.object(requiredSchema).validate(data)
     }
     else if(method === "GET"){
-        return querySchema.validate(data)
+        return Joi.object(querySchema).validate(data)
     }
 
     throw Error("Invalid request method.")

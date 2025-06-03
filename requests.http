@@ -3,10 +3,10 @@ POST http://localhost:5000/users/signup
 content-type: application/json
 
 {
-    "name":"richard",
-    "email":"rich@rd.com",
-    "password":"12345555555555555",
-    "roles":["admin"]
+    "name":"reza",
+    "email":"rich@rd22.com",
+    "password":"4444455555",
+    "roles":["staff_l1", "delete_flight"]
 }
 
 ### test sign-in
@@ -14,6 +14,10 @@ POST http://localhost:5000/users/signin
 content-type: application/json
 
 {
-    "email":"rich@rd.com",
-    "password":"12345555555555555"
+    "email":"rich@rd22.com",
+    "password":"4444455555"
 }
+
+### test get flights
+GET  http://localhost:5000/flights/
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODNmNGE5MDQ2NTMxYmE0ZmY5Y2VjMTkiLCJyb2xlcyI6WyJzdGFmZl9sMSIsImRlbGV0ZV9mbGlnaHQiXSwiaWF0IjoxNzQ4OTc5NzE3fQ.NF5lEVoD81lBC6IN_W7fj-umYV71z2XUA7kevi9mWSE

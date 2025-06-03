@@ -9,7 +9,7 @@ function auth(allowedRoles=[]){
         try{
             const authUser = jwt.verify(token, process.env.JWT_SECRET)
             req.user = authUser
-            if(allowedRoles.length > 0 && !allowedRoles.some(allowedRole => authUser.roles.include(allowedRole))){
+            if(allowedRoles.length > 0 && !allowedRoles.some(allowedRole => authUser.roles.includes(allowedRole))){
                 return res.status(403).json({error: "Access denied. Insufficeient priviliges."})
             }
             next()
