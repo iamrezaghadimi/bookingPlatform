@@ -1,4 +1,5 @@
 const {User, validateUser} = require('../models/User')
+const {createSession} = require("../middlewares/session")
 
 const signUp = async (req, res) => {
     const {error} = validateUser(req.body, req.method)
@@ -12,7 +13,10 @@ const signUp = async (req, res) => {
     try {
         const user = new User(req.body)
         await user.save()
-        return res.header('x-auth-token', user.generateAuthToken()).json({ message: "User registered successfully", user})
+
+        await createSession(req, user)
+        return res.json({ message: "User registered successfully", user})
+        // return res.header('x-auth-token', user.generateAuthToken()).json({ message: "User registered successfully", user})
     } catch (error) {
         return res.status(500).json({error: "Failed to register the user."})
     }
@@ -28,7 +32,9 @@ const signIn = async (req, res) => {
     if(!validPassword) return res.status(400).json({ error: 'Invalid email or password!'})   
 
     try {
-        return res.header('x-auth-token', user.generateAuthToken()).json({ message: "User logged in successfully", user})
+        await createSession(req, user)
+        return res.json({ message: "User logged in successfull", user})       
+        // return res.header('x-auth-token', user.generateAuthToken()).json({ message: "User logged in successfully", user})
     } catch (error) {
         return res.status(500).json({error: "Failed to register the user."})
     }

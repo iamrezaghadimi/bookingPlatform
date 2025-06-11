@@ -1,23 +1,35 @@
 ### test sign-up
-POST http://localhost:5000/users/signup
+POST https://localhost:3000/users/signup
 content-type: application/json
 
 {
-    "name":"reza",
-    "email":"rich@rd22.com",
-    "password":"4444455555",
-    "roles":["staff_l1", "delete_flight"]
+    "name":"liam",
+    "email":"liam@rd.com",
+    "password":"111111111111",
+    "roles":["admin"]
+}
+
+
+### test sign-up
+POST http://localhost:80/users/signup
+content-type: application/json
+
+{
+    "name":"jack",
+    "email":"jack@rd.com",
+    "password":"22222222222222222222",
+    "roles":["admin"]
 }
 
 ### test sign-in
-POST http://localhost:5000/users/signin
+POST https://localhost:3000/users/signin
 content-type: application/json
 
 {
-    "email":"rich@rd22.com",
-    "password":"4444455555"
+    "email":"liam@rd.com",
+    "password":"111111111111"
 }
 
 ### test get flights
-GET  http://localhost:5000/flights/
+GET  http://localhost:3000/flights/
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODNmNGE5MDQ2NTMxYmE0ZmY5Y2VjMTkiLCJyb2xlcyI6WyJzdGFmZl9sMSIsImRlbGV0ZV9mbGlnaHQiXSwiaWF0IjoxNzQ4OTgwMzAyfQ.stnC4IwSRvRZSfPVCFSUWvknSlxf8dUqCRDT1DiAB_g

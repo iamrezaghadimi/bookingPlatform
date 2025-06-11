@@ -29,9 +29,9 @@ userSchema.methods.comparePassword = async function (password){
     return await bcrypt.compare(password + process.env.PEPPER, this.password)
 }
 
-userSchema.methods.generateAuthToken = function() {
-    return jwt.sign({_id: this._id, roles: this.roles}, process.env.JWT_SECRET)
-}
+// userSchema.methods.generateAuthToken = function() {
+//     return jwt.sign({_id: this._id, roles: this.roles}, process.env.JWT_SECRET)
+// }
 
 
 const User = mongoose.model("User", userSchema)
