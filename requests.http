@@ -3,8 +3,8 @@ POST https://localhost:3000/users/signup
 content-type: application/json
 
 {
-    "name":"liam",
-    "email":"liam@rd.com",
+    "name":"liam3",
+    "email":"liam3@rd.com",
     "password":"111111111111",
     "roles":["admin"]
 }
@@ -26,9 +26,13 @@ POST https://localhost:3000/users/signin
 content-type: application/json
 
 {
-    "email":"liam@rd.com",
+    "email":"liam3@rd.com",
     "password":"111111111111"
 }
+
+
+### test get flights
+GET  https://localhost:3000/flights/
 
 ### test get flights
 GET  http://localhost:3000/flights/

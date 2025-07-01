@@ -1,5 +1,11 @@
+const axios = require("axios")
 async function getCountryFromIP(ip){
-    return "unknown"
+    try{
+        const response = await axios.get(`http://ip-api.com/${ip}`)
+        return response.data.country || 'unknown'
+    } catch(error){
+        return "unknown"
+    }
 }
 
 async function createSession(req, user){
@@ -27,4 +33,4 @@ async function createSession(req, user){
     })
 }
 
-module.exports = {createSession}
+module.exports = {createSession, getCountryFromIP}
