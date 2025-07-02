@@ -18,7 +18,7 @@ function auth(roles=[]){
         if(req.session.country !== country) 
             return res.status(401).json({error: "Access denied. Diffrent country detected!"})
 
-        if(Date.now() - req.session.lastActive > 1 * 60 * 1000)
+        if(Date.now() - req.session.lastActive > process.env.SESSION_TIMEOUT_IN_HOURS * 60 * 60 * 1000)
             return res.status(401).json({error: "Session expired due to inactivity!"})
 
 

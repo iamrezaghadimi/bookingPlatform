@@ -16,6 +16,7 @@ const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const session = require('express-session')
 const MongoStore = require('connect-mongo');
+const { log } = require("console");
 
 
 // const uri = 'mongodb://localhost:27017/richard'
@@ -86,13 +87,30 @@ https.createServer(options, app).listen(port, () => {
     console.log(`Server is running on https://localhost:${port}`);
 });
 
-http.createServer((req,res) => {
-    // let status = 301
-    // if(req.method === 'POST' || req.method === 'PATCH'){
-    //     status = 307
-    // }
+// http.createServer((req,res) => {
+//     let status = 301
+//     if(req.method === 'POST' || req.method === 'PATCH'){
+//         status = 307
+//     }
+//     res.writeHead(301, {location: `https://localhost:${httpPort}${req.url}`}).end()
+// }).listen(httpPort, () => {
+//     console.log(`HTTP server is running on port ${httpPort} (redirecting to HTTPS)`);
+// });
 
-    res.writeHead(301, {location: `https://localhost:${httpPort}${req.url}`}).end()
+// http.createServer((req,res) => {
+//     const statusCode = req.method === "POST" ? 307 : 301;
+//     res.writeHead(statusCode, {location: `https://localhost:${port}${req.url}`}).end()
+// }).listen(httpPort, () => {
+//     console.log(`HTTP server is running on port ${httpPort} (redirecting to HTTPS)`);
+// });
+
+
+// Redirect HTTP to HTTPS
+http.createServer((req, res) => {
+    const host = req.headers.host?.replace(`:${httpPort}`, "") || "localhost";
+    const statusCode = req.method === "POST" ? 307 : 301;
+    res.writeHead(statusCode, {Location: `https://${host}:${port}${req.url}`}).end();
 }).listen(httpPort, () => {
-    console.log(`HTTP server is running on port ${httpPort} (redirecting to HTTPS)`);
+    console.log(`HTTP server running on port ${httpPort}`);
 });
+

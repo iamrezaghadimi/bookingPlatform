@@ -40,14 +40,56 @@ const signIn = async (req, res) => {
     }
 };
 
-// const updateUser= async (req, res) => {
-//     const {error} = validateUser(req.body, req.method)
-//     if(error) return res.status(400).json({error: error.details})
+const signOut = (req, res) => {
+    if(!req.session) return res.status(401).json({error: 'No active session.'})
+    req.session.destroy(err => {
+        if(err) return res.status(500).json({error: 'Failed to destroy the session'})
+        res.clearCookie("connect.sid",{
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+        })
+        res.json({message: "Signed out successfully!"});
+    })
+}
 
-//     const user = await User.findById(req)
-// }
+
+const updateUser= async (req, res) => {
+    const {error} = validateUser(req.body, req.method)
+    if(error) return res.status(400).json({error: error.details})
+
+    const user = await User.findById(req.session.userId)
+    if(!user) return res.status(404).json({error: 'User not found.'})
+
+    const {name, email, password, roles} = req.body
+    if(email){
+        let check = await User.findOne({email})
+        if(check) return res.status(400).json({error: 'Email already taken.'})
+        user.email = email
+    }
+    if(name) user.name = name
+    if(password) user.password = password
+    if(roles) user.roles = roles
+
+    await user.save()
+    return res.json({message: "User updated successfully!", user});
+}
+
+const deleteUser = async (req, res) => {
+    try{
+        const user = await User.findByIdAndDelete(req.session.userId)
+        if(!user) return res.status(404).json({error: 'User not found.'})
+        return signOut(req, res)    
+    } 
+    catch(err){
+        return res.status(500).json({error: "Failed to delete the user."})
+    }
+}
 
 module.exports = {
     signUp,
-    signIn
+    signIn,
+    signOut,
+    updateUser,
+    deleteUser
 }
