@@ -7,6 +7,7 @@ const mongoose = require("mongoose")
 const flightsRouter = require("./routes/flights");
 const hotelsRouter = require("./routes/hotels");
 const usersRouter = require("./routes/users");
+const errors = require("./middlewares/errors");
 
 
 // new guys
@@ -66,14 +67,7 @@ app.use("/users/signin", loginLimiter)
 app.use("/flights", flightsRouter);
 app.use("/hotels", hotelsRouter);
 app.use("/users", usersRouter);
-
-
-app.use((err, req, res, next) => {
-    if (err instanceof SyntaxError) {
-        return res.status(400).json({ error: "Invalid JSON syntax" });
-    }
-    next();
-});
+app.use(errors);
 
 
 // cd keys
