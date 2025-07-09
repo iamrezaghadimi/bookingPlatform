@@ -42,6 +42,12 @@ class ForbiddenError extends AppError{
     }
 }
 
+class BadRequestError extends AppError{
+    constructor(message = "Bad Request"){
+        super(message, 400);
+        this.name = 'BadRequestError'
+    }
+}
 
 module.exports = {
     AppError,
@@ -49,5 +55,6 @@ module.exports = {
     DatabaseError,
     NotFoundError,
     AuthError,
-    ForbiddenError
+    ForbiddenError,
+    BadRequestError
 }

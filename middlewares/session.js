@@ -1,4 +1,5 @@
 const axios = require("axios")
+const { DatabaseError } = require("../utils/errors")
 async function getCountryFromIP(ip){
     try{
         const response = await axios.get(`http://ip-api.com/${ip}`)
@@ -17,7 +18,7 @@ async function createSession(req, user){
 
 
         req.session.regenerate((err) => {
-            if(err) return reject({error: "Session generation failed"})
+            if(err) return reject(new DatabaseError('Session generation failed'))
 
             req.session.userId = user._id
             req.session.roles = user.roles

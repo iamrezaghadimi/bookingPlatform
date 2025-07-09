@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken')
 const {getCountryFromIP} = require("../middlewares/session")
+const { ForbiddenError, AuthError } = require('../utils/errors')
 
 
 function auth(roles=[]){
     return async (req, res, next) => {
         if(!req.session || !req.session.userId) 
-            return res.status(401).json({error: "Access denied. No active session."})
+            throw new AuthError('Access denied. No active session.')
 
         const userAgent = req.headers["user-agent"]
         const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress
@@ -16,14 +17,14 @@ function auth(roles=[]){
         
 
         if(req.session.country !== country) 
-            return res.status(401).json({error: "Access denied. Diffrent country detected!"})
+            throw new AuthError('Access denied. Diffrent country detected!')
 
         if(Date.now() - req.session.lastActive > process.env.SESSION_TIMEOUT_IN_HOURS * 60 * 60 * 1000)
-            return res.status(401).json({error: "Session expired due to inactivity!"})
+            throw new AuthError('Session expired due to inactivity!')
 
 
         if(roles.length > 0 && (!req.session.roles || !roles.some(role=>req.session.roles.includes(role)))){
-            return res.status(403).json({error: "Access denied. Insufficeient priviliges."})
+            throw new ForbiddenError('Access denied! Insufficient priviliges.')
         }
 
         req.session.lastActive = Date.now()
