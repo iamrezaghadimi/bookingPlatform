@@ -3,7 +3,6 @@ require('winston-mongodb')
 const { format } = winston
 const { combine, timestamp, colorize, printf} = format
 
-const MONGODB_URI = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}?authSource=admin`;
 
 const consoleFormat = printf(({ level, message, timestamp, stack }) => {
   const log = `${timestamp} [${level}]: ${message}`;
@@ -20,7 +19,7 @@ const logger = winston.createLogger({
     transports: [
         new winston.transports.Console(),
         new winston.transports.MongoDB({
-            db: MONGODB_URI,
+            db: require('../utils/databasePath')(),
             collection: 'error_logs'
         })
     ],

@@ -5,8 +5,7 @@ const { ValidationError, BadRequestError, AuthError, NotFoundError } = require('
 const signUp = async (req, res) => {
     const {error} = validateUser(req.body, req.method)
     if(error) throw new ValidationError(error.details)
-
-     console.log(req.body);   
+  
     let user = await User.findOne({email: req.body.email})
     if(error) throw new BadRequestError('User already registered!')
 

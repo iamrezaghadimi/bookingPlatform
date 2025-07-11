@@ -1,6 +1,7 @@
 require('express-async-errors');
 require("dotenv").config();
 const express = require("express");
+const logger = require('./utils/logger');
 
 
 const app = express();
@@ -10,10 +11,11 @@ require("./routes/")(app)
 require("./middlewares/errors")(app)
 
 
-const {httpsServer, httpServer, port, httpPort} = require("./configs/server")()
+const {httpsServer, httpServer, port, httpPort} = require("./configs/server")(app)
 httpsServer.listen(port, () => {
-    console.log(`Server is running on https://localhost:${port}`);
+    logger.info(`Server is running on https://localhost:${port}`);
 });
+
 httpServer.listen(httpPort, () => {
-    console.log(`HTTP server running on port ${httpPort}`);
+    logger.info(`HTTP server running on port ${httpPort}`);
 });

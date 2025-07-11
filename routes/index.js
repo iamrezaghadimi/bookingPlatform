@@ -1,8 +1,8 @@
 const express = require("express");
 const rateLimit = require('express-rate-limit')
-const flightsRouter = require("./routes/flights");
-const hotelsRouter = require("./routes/hotels");
-const usersRouter = require("./routes/users");
+const flightsRouter = require("./flights");
+const hotelsRouter = require("./hotels");
+const usersRouter = require("./users");
 
 const loginLimiter = rateLimit({
     windowMs: 10 * 60 * 1000,
