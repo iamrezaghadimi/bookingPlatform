@@ -5,14 +5,14 @@ const { ValidationError, BadRequestError, AuthError, NotFoundError } = require('
 const signUp = async (req, res) => {
     const {error} = validateUser(req.body, req.method)
     if(error) throw new ValidationError(error.details)
-  
+        
     let user = await User.findOne({email: req.body.email})
-    if(error) throw new BadRequestError('User already registered!')
+    if(user) throw new BadRequestError('User already registered!')
 
     user = new User(req.body)
     await user.save()
-    await createSession(req, user)
-    return res.json({ message: "User registered successfully", user})
+    const sessionResults = await createSession(req, user)
+    return res.status(sessionResults.status).json(sessionResults)
 
 };
 
@@ -25,8 +25,8 @@ const signIn = async (req, res) => {
     const validPassword = await user.comparePassword(password)
     if(!validPassword) throw new AuthError('Invalid email or password!')
 
-    await createSession(req, user)
-    return res.json({ message: "User logged in successfull", user})       
+    const sessionResults = await createSession(req, user)
+    return res.status(sessionResults.status).json(sessionResults)    
 };
 
 const signOut = (req, res) => {

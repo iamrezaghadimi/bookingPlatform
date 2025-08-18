@@ -19,3 +19,6 @@ httpsServer.listen(port, () => {
 httpServer.listen(httpPort, () => {
     logger.info(`HTTP server running on port ${httpPort}`);
 });
+
+
+module.exports = { app };
